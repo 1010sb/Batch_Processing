@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  questdb:
+    image: questdb/questdb
+    container_name: questdb
+    hostname: questdb
+    ports:
+      - "9000:9000"
+      - "8812:8812"
+    volumes:
+      - questdb_data:/questdb/data
+    restart: always
+  python:
+    build: .
+    container_name: python
+   
+    depends_on:
+      - questdb
+    volumes:
+      - ./:/app
+    
+
+volumes:
+  questdb_data:
